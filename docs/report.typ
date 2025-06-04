@@ -246,7 +246,7 @@ The optimized flame graph reveals that `stbtt_GetGlyphKernAdvance` now represent
 
 The optimization achieved exceptional improvements across all measured metrics:
 
-- *Rendering performance*: Frame rates improved from ~9.5 FPS to 250 FPS, enabling smooth interactive experiences
+- *Rendering performance*: Frame rates improved from ~4 FPS to 250 FPS, enabling smooth interactive experiences
 - *Application responsiveness*: Startup time reduction makes the application practical for embedded systems with limited processing power
 - *Resource efficiency*: Reduced CPU utilization allows for better multitasking and lower power consumption
 
