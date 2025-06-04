@@ -118,20 +118,23 @@ int main(int argc, char **argv)
 	init_ui();
 
 	/* The first refr call will both update the layout and render */
+	uint32_t t = lv_tick_get();
 	lv_refr_now(NULL);
+	LV_LOG_USER("Time for first render (rendering + layout) %u ms\n",
+		    lv_tick_elaps(t));
+	if (render_only) {
+		return 0;
+	}
 	/* 
 	 * By invalidating the current screen, the next call to refr will rerender the whole screen
 	 * In this case, the layouts won't change so this will mesure the pure rendering time
 	 */
 	lv_obj_invalidate(lv_screen_active());
 
-	const uint32_t t = lv_tick_get();
+	t = lv_tick_get();
 	lv_refr_now(NULL);
-	LV_LOG_USER("%u ms\n", lv_tick_elaps(t));
-
-	if (render_only) {
-		return 0;
-	}
+	LV_LOG_USER("Time for rendering only (no layout) %u ms\n",
+		    lv_tick_elaps(t));
 
 	while (1) {
 		const uint32_t sleep_time_ms = lv_timer_handler();
