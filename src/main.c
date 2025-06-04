@@ -107,10 +107,8 @@ void init_ui(void)
 int main(int argc, char **argv)
 {
 	bool render_only = false;
-	if (argc == 2) {
-		if (strcmp(argv[1], "render_only")) {
-			render_only = true;
-		}
+	if (argc > 1) {
+		render_only = strcmp(argv[1], "--first-render-only") == 0;
 	}
 
 	lv_init();
