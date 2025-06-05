@@ -121,7 +121,7 @@ Every time you render text, the system has to check: "Do these two characters ne
 
 = Performance analysis and problem identification
 
-=== Initial performance baseline
+== Initial performance baseline
 
 Performance measurements were conducted with the provided application.
 
@@ -158,7 +158,7 @@ And when we run the application we can see an average render time of ~105ms per 
 
 These performance figures indicated severe optimization opportunities, particularly for interactive applications requiring smooth frame rates.
 
-=== Profiling with flame graphs
+== Profiling with flame graphs
 
 Flame graph analysis revealed the performance bottleneck concentrated in a single function: `stbtt_GetGlyphKernAdvance`.
 This function, responsible for calculating kerning values between glyph pairs, consumed approximately 50% of total CPU cycles during the application startup phase until the first render.
@@ -168,7 +168,7 @@ This function, responsible for calculating kerning values between glyph pairs, c
 The flame graph clearly illustrated that kerning calculations were being performed repeatedly for the same glyph pairs,
 indicating a lack of result caching for this computationally expensive operation.
 
-=== Root cause analysis
+== Root cause analysis
 
 While LVGL's tinyttf library already handled font and glyph caching effectively,
 kerning calculations were performed on-demand for every rendering operation.
@@ -182,9 +182,9 @@ Kerning calculation involves:
 Without caching, identical glyph pairs required full recalculation during each render cycle,
 creating unnecessary computational overhead particularly noticeable with fonts containing extensive kerning tables like MyriadPro.
 
-== Optimization strategy
+= Optimization strategy
 
-=== Approach
+== Approach
 
 The optimization leveraged LVGL's existing cache infrastructure to implement kerning value caching. This approach offered several advantages:
 
@@ -192,16 +192,16 @@ The optimization leveraged LVGL's existing cache infrastructure to implement ker
 - *Memory management*: Benefited from LVGL's existing cache eviction policies and memory management
 - *Integration*: Minimal code changes required, maintaining library compatibility
 
-=== Implementation details
+== Implementation details
 
 The caching mechanism stores recently calculated kerning values indexed by glyph pair identifiers.
 When the `ttf_get_glyph_dsc_cb` function is called which is reponsible for getting the description of the current glyph during the rendering phase, 
 we check to see if the current pair of glyphs (current glyph and next one) exist in cache and if so, we avoid calling the `stbtt_GetGlphyKernAdvance`.
 If it doesn't we calculate it and store it in the cache. This will evict an entry from the cache if there's not enough space.
 
-== Performance results
+= Performance results
 
-=== Quantitative improvements
+== Quantitative improvements
 
 Post-optimization measurements demonstrate substantial performance gains.
 
@@ -236,13 +236,13 @@ And when running the application we can see an average render time of ~4ms per f
 
 #figure(image("./media/perf_render_time_running_app.png", width:50%), caption: [Render time during application execution after optmization])
 
-=== Profiling analysis
+== Profiling analysis
 
 #figure(image("./media/perf_fg.png", width: 50%), caption:[Flamegraph after optmization])
 
 The optimized flame graph reveals that `stbtt_GetGlyphKernAdvance` now represents only 0.918% of total execution time, compared to the original 50%. This reduction demonstrates successful elimination of redundant kerning calculations through effective caching.
 
-=== Performance impact analysis
+== Performance impact analysis
 
 The optimization achieved exceptional improvements across all measured metrics:
 
@@ -250,14 +250,14 @@ The optimization achieved exceptional improvements across all measured metrics:
 - *Application responsiveness*: Startup time reduction makes the application practical for embedded systems with limited processing power
 - *Resource efficiency*: Reduced CPU utilization allows for better multitasking and lower power consumption
 
-== Technical implications
+= Technical implications
 
-=== Cache effectiveness
+== Cache effectiveness
 
 The dramatic performance improvements indicate high cache hit rates for kerning operations, suggesting that text rendering typically involves repeated glyph pairs.
 This behavior is expected in natural language text where common letter combinations appear frequently.
 
-=== Memory overhead
+== Memory overhead
 
 In this specific case, the cache can hold up to 183 entries. Each node stores 12 bytes of data,
 and there's an estimated overhead of about 32 bytes per node for maintaining internal structures—such as parent and child pointers used in the red-black tree implementation.
@@ -272,14 +272,14 @@ Additionally, kerning can be completely disabled if visual appearance is not a p
 
 #pagebreak()
 
-=== Scalability considerations
+== Scalability considerations
 
 The optimization scales particularly well with:
 - *Complex fonts*: Fonts with extensive kerning tables benefit most from caching
 - *Repeated text content*: Applications displaying similar text content see maximum performance gains
 - *Long-running applications*: Cache effectiveness increases over application lifetime
 
-== Conclusion
+= Conclusion
 
 This optimization project demonstrates the effectiveness of targeted performance analysis using profiling tools. The flame graph analysis enabled precise identification of the performance bottleneck, leading to a focused solution that achieved remarkable improvements.
 
