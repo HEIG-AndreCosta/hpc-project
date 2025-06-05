@@ -19,9 +19,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic -g")
 include(ExternalProject)
 ExternalProject_Add(
   lvgl_cache
-  GIT_REPOSITORY https://github.com/AndreCostaaa/lvgl.git
-  GIT_TAG feat-tinny-ttf-kerning-cache
-  GIT_SHALLOW TRUE
+  GIT_REPOSITORY https://github.com/lvgl/lvgl.git
+  GIT_TAG d5149c39065473a6117793492e11b8372dc8ab14
   PREFIX ${CMAKE_BINARY_DIR}/lvgl_cache
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/lvgl_cache_install
              -DLV_BUILD_CONF_PATH=${CMAKE_SOURCE_DIR}/lv_conf_cache.h
@@ -29,9 +28,8 @@ ExternalProject_Add(
   BUILD_ALWAYS FALSE)
 ExternalProject_Add(
   lvgl_no_cache
-  GIT_REPOSITORY https://github.com/AndreCostaaa/lvgl.git
-  GIT_TAG feat-tinny-ttf-kerning-cache
-  GIT_SHALLOW TRUE
+  GIT_REPOSITORY https://github.com/lvgl/lvgl.git
+  GIT_TAG d5149c39065473a6117793492e11b8372dc8ab14
   PREFIX ${CMAKE_BINARY_DIR}/lvgl_no_cache
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/lvgl_no_cache_install
              -DLV_BUILD_CONF_PATH=${CMAKE_SOURCE_DIR}/lv_conf_no_cache.h
