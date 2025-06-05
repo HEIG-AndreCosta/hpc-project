@@ -23,18 +23,17 @@ During the course of this project, a PR was open in LVGL's Github. You can find 
 
 == Prerequisites
 
-This project requires SDL2 development libraries to run the demonstration application. Install the required dependencies on your system:
-
-*Ubuntu/Debian:*
+From a clean Ubuntu 24.04 environment, the following packages need to be installed:
 
 ```bash
-sudo apt install libsdl2-dev libsdl2-image-dev
+apt update
+apt install build-essential git cmake pkg-config python3-venv libsdl2-dev libsdl2-image-dev
 ```
 
-*Fedora:*
+To prepare a clean Fedora 41 environment, the following packages need to be installed:
 
 ```bash
-sudo dnf install SDL2-devel SDL2_image-devel
+dnf install gcc gcc-c++ make git which cmake SDL2-devel SDL2_image-devel python3-virtualenv
 ```
 
 == Building the project

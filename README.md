@@ -18,24 +18,22 @@ As part of the HPC coursework, this project aimed to:
 
 ### Prerequisites
 
-Install SDL2 development libraries:
-
-**Ubuntu/Debian:**
+From a clean Ubuntu 24.04 environment, the following packages need to be installed:
 
 ```bash
-sudo apt install libsdl2-dev libsdl2-image-dev
+apt update
+apt install build-essential git cmake pkg-config python3-venv libsdl2-dev libsdl2-image-dev
 ```
 
-**Fedora:**
+To prepare a clean Fedora 41 environment, the following packages need to be installed:
 
 ```bash
-sudo dnf install SDL2-devel SDL2_image-devel
+dnf install gcc gcc-c++ make git which cmake SDL2-devel SDL2_image-devel python3-virtualenv
 ```
 
 ### Build
 
 ```bash
-# Clone and build the project
 cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j$(nproc)
 ```
